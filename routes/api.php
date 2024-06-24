@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,4 +10,8 @@ Route::group([
 ], function() {
     Route::get('/{category}', 'get');
     Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::patch('/{category}', 'patch');
+    Route::put('/{category}', 'put');
+    Route::delete('/{category}', 'delete');
 });
