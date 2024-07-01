@@ -12,7 +12,7 @@ class ProjectController extends Controller
 {
     public function get(Project $project)
     {
-        return $project;
+        return $this->successResponse(data: $project->toArray());
     }
     public function store(CreateProjectRequest $request, AbstractFileService $fileService): JsonResponse
     {
@@ -32,4 +32,14 @@ class ProjectController extends Controller
             statusCode: Response::HTTP_CREATED,
         );
     }
+    public function delete(Project $project, AbstractFileService $fileService)
+    {
+        $fileService->delete($project->avatarFile);
+        $fileService->delete($project->tsFile);
+
+        $project->delete();
+
+        return $this->successResponse(statusCode: Response::HTTP_NO_CONTENT);
+    }
+
 }

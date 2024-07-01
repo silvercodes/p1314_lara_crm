@@ -16,10 +16,6 @@ class DefaultFileService extends AbstractFileService
     ];
 
     private ?AbstractFileHandler $fileHandler = null;
-
-
-
-
     public function save(UploadedFile $uploadedFile): File
     {
         $handler = $this->getFileHandler($uploadedFile->getMimeType());
@@ -55,5 +51,10 @@ class DefaultFileService extends AbstractFileService
                 return $handler;
 
         throw new ApiBadRequestException("File format is not supported");
+    }
+
+    function delete(File $file): bool
+    {
+        return $this->getFileHandler($file->mime_type)->delete($file);
     }
 }

@@ -23,4 +23,5 @@ Route::group([
 ], function() {
     Route::get('/{project}', 'get');
     Route::post('/', 'store');
+    Route::delete('/{project}', 'delete');
 });
