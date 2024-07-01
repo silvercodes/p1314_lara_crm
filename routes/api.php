@@ -21,5 +21,6 @@ Route::group([
         'prefix' => 'projects',
         'controller' => ProjectController::class,
 ], function() {
+    Route::get('/{project}', 'get');
     Route::post('/', 'store');
 });
