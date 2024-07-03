@@ -24,5 +24,7 @@ Route::group([
     Route::get('/{project}', 'get');
     Route::post('/', 'store');
     Route::delete('/{project}', 'delete');
+    Route::patch('/{project}', 'patch');
+
     Route::get('/{project}/download', 'download');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\CreateProjectRequest;
 use App\Http\Requests\Project\DownloadProjectFileRequest;
+use App\Http\Requests\Project\PatchProjectRequest;
 use App\Models\Project;
 use App\Services\File\AbstractFileService;
 use App\Services\Zip\ZipService;
@@ -43,6 +44,32 @@ class ProjectController extends Controller
         $fileService->delete($project->tsFile);
 
         $project->delete();
+
+        return $this->successResponse(statusCode: Response::HTTP_NO_CONTENT);
+    }
+
+    public function patch(
+        Project $project,
+        PatchProjectRequest $request,
+        AbstractFileService $fileService
+    ) {
+        $project->fill($request->validated());
+
+        // TODO: optimize!
+        if (isset($request['avatar'])) {
+
+            $fileService->delete($project->avatarFile);
+            $file = $fileService->save($request['avatar']);
+            $project->avatar_file_id = $file->id;
+        }
+
+        if (isset($request['ts'])) {
+            $fileService->delete($project->tsFile);
+            $file = $fileService->save($request['ts']);
+            $project->ts_file_id = $file->id;
+        }
+
+        $project->save();
 
         return $this->successResponse(statusCode: Response::HTTP_NO_CONTENT);
     }
