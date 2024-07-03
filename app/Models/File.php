@@ -54,4 +54,13 @@ class File extends Model
             }
         );
     }
+
+    public function absolutePath(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                return Storage::path($this->path);
+            }
+        );
+    }
 }

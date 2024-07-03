@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\File\AbstractFileService;
 use App\Services\File\DefaultFileService;
+use App\Services\Zip\ZipService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AbstractFileService::class, function() {
             return new DefaultFileService();
+        });
+
+        $this->app->singleton(ZipService::class, function () {
+            return new ZipService();
         });
     }
 
