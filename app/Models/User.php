@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasRolePermissionTrait;
 use Database\Factories\UserFactory;
 use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +45,10 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory,
+        Notifiable,
+        HasApiTokens,
+        HasRolePermissionTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -4,6 +4,7 @@ use App\Enums\TokenAbility;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,6 +24,8 @@ Route::group([
     ]
 ], function () {
 
+    Route::get('/test', [TestController::class, 'test']);
+
     Route::get('/signout', [AuthController::class, 'signout']);
 
     Route::group([
@@ -30,7 +33,7 @@ Route::group([
         'controller' => CategoryController::class,
     ], function() {
         Route::get('/{category}', 'get');
-        Route::get('/', 'index');
+        Route::get('/', 'index')->middleware('role:admin,p_5');
         Route::post('/', 'store');
         Route::patch('/{category}', 'patch');
         Route::put('/{category}', 'put');

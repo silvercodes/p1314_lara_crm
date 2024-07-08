@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
+use App\Models\User;
 use App\Services\File\AbstractFileService;
 use App\Services\File\DefaultFileService;
 use App\Services\Zip\ZipService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Permission::get()->map(function(Permission $permission) {
+            Gate::define($permission->slug, function(User $user) use($permission) {
+                return $user->hasPermissionComplete($permission);
+            });
+        });
     }
 }
